@@ -23,6 +23,16 @@ function Sprite(x, y, w, h)
 		this.currentAnimation = animationName;
 	}
 	
+	Sprite.prototype.move = function(offx, offy)
+	{
+		this.x+=offx;
+		this.y+=offy;
+		if(this.x < -30)
+		{
+			this.x = window.innerWidth;
+		}
+	}	
+	
 }
 
 function Animation(image, startX, startY, frameW, frameH, frameNum, frameRate)
@@ -46,23 +56,21 @@ function Animation(image, startX, startY, frameW, frameH, frameNum, frameRate)
 	this.frameNum = frameNum;
 	this.frameRate = frameRate;
 	
-	Animation.prototype.draw = function(ctx, x, y, w, h)
-	{
-		this.x1 = currentFrame * frameW;
-		this.y1 = startY;
-		ctx.drawImage(this.image, this.x1, this.y1, this.frameW, this.frameH, x, y, w, h); 
-		this.frameCounter = this.frameCounter + 1;
-		console.log(this.frameCoutner + " " + this.frameRate);
-		
-		if(this.frameCounter % this.frameRate == 0)
+	this.draw = function(ctx, x, y, w, h)
+	{	
+		x1 = currentFrame * frameW;
+		y1 = startY;
+		ctx.drawImage(image, x1, y1, frameW, frameH, x, y, w, h); 
+		frameCounter++;
+				
+		if(frameCounter > frameRate)
 		{
-			console.log("Here.");
-			this.currentFrame++;
-			if(currentFrame > this.frameNum)
+			currentFrame++;
+			if(currentFrame >= frameNum)
 			{
-				this.currentFrame = 0;
+				currentFrame = 0;
 			}
-			this.frameCounter = 0;
+			frameCounter = 0;
 		}
 	}
 }

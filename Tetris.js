@@ -27,24 +27,112 @@ for(int i = 0; i < 7; i++)
               };
     })();
 
-var canvas = document.getElementById('canvas1');				
-var ctx = canvas.getContext('2d');				
-
-function clearCanvas()
+var canvas = document.getElementById('canvas1');	
+//var canvasWidth = window.innerWidth-25;
+//var canvasHeight = window.innerHeight-25;
+canvas.setAttribute("width", window.innerWidth-25);
+canvas.setAttribute("height", window.innerHeight-25);			
+var ctx = canvas.getContext('2d');
+//canvas.style.width = window.innerWidth;
+//cavas.style.height = window.innerHeight;		
+		
+var clearCanvas = function()
 {
+	ctx.save();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.restore();
 }
 
-var yoshiImage = new Image();
-yoshiImage.src = "./Graphics/YoshiTest.png"
-var yoshi = new Sprite(250, 400, 30, 48);
-var runAnim = new Animation(yoshiImage, 0, 0, 30, 48, 12, 5);
-yoshi.setAnimation(runAnim);
+background = new Image();
+background.src = "./Graphics/Background.jpg"
+//background.style.width = '100%'
+//background.style.height = '100%'
 
-function gameLoop()
+var sprites = [];
+
+var init = function()
+{	
+	var bgm = new Audio("Sound/bgm.mp3");
+	bgm.loop = true;
+	bgm.play();
+	var yoshiImage = new Image();
+	yoshiImage.src = "./Graphics/YoshiTest.png"
+	var yoshi = new Sprite(250, 400, 29, 48);
+	var runAnim = new Animation(yoshiImage, 0, 0, 30, 48, 12, 4);
+	yoshi.setAnimation(runAnim);
+	
+	sprites.push(yoshi);
+	
+	gameLoop();
+}
+
+var rainingBlocks = function()
 {
-	yoshi.draw(ctx);
+	var circleBlockImage = new Image();
+	circleBlockImage.src = "./Graphics/Circle Block.gif"
+	var circleBlockAnim = new Animation(circleBlockImage, 0, 0, 17, 17, 0, 0);
+	
+	var heartBlockImage = new Image();
+	heartBlockImage.src = "./Graphics/Heart Block.gif"
+	var heartBlockAnim = new Animation(heartBlockImage, 0, 0, 17, 17, 0, 0);
+	
+	var diamondBlockImage =  new Image();
+	diamondBlockImage.src = "./Graphics/Diamond Block.gif"
+	var diamondBlockAnim = new Animation(diamondBlockImage, 0, 0, 17, 17, 0, 0);
+	
+	var starBlockImage = new Image();
+	starBlockImage.src = "./Graphics/Star Block.gif"
+	var starBlockAnim = new Animation(starBlockImage, 0, 0, 17, 17, 0, 0);
+	
+	var triangleBlockImage = new Image();
+	triangleBlockImage.src = "./Graphics/Triangle Block.gif"
+	var triangleBlockAnim = new Animation(triangleBlockImage, 0, 0, 17, 17, 0, 0);
+
+	var numBlocks = Math.floor(Math.random()*10 + 5);
+	for(var i = 0; i < numBlocks; i++)
+	{
+		var randX = Math.floor(Math.random()*window.innerWidth -26);
+		var newSprite = new Sprite(randX, 0, 17, 17);
+		var blockType = Math.floor(Math.random()*5);
+		switch(blockType)
+		{
+			case 0:
+				newSprite.setAnimation(circleBlockAnim);
+				break;
+			case 1:
+				newSprite.setAnimation(heartBlockAnim);
+				break;
+			case 2:
+				newSprite.setAnimation(diamondBlockAnim);
+				break;
+			case 3:
+				newSprite.setAnimation(starBlockAnim);
+				break;
+			case 4:
+				newSprite.setAnimation(triangleBlockAnim);
+				break;
+		}
+		sprites.push(newSprite);
+	}
+}
+
+var gameLoop = function ()
+{
 	clearCanvas();
+	ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
+	rainingBlocks();
+	for(var i = sprites.length-1; i >= 0; i--)
+	{
+		this.sprites[i].draw(ctx);
+		if(i == 0)
+		{
+			this.sprites[i].move(-2, 0);
+		}
+		else
+		{
+			this.sprites[i].move(0, 10);
+		}
+	}
 	requestAnimFrame(gameLoop, canvas);
 }
 	
