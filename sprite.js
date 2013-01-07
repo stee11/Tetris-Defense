@@ -11,6 +11,16 @@ function Sprite(x, y, w, h)
 	this.w = w;
 	this.h = h;
 	
+	Sprite.prototype.getX = function()
+	{
+		return this.x;
+	}
+	
+	Sprite.prototype.getY = function()
+	{
+		return this.y;
+	}
+	
 	//at each frame, every sprite's draw function will be called.
 	Sprite.prototype.draw = function(ctx)
 	{

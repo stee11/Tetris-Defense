@@ -130,7 +130,14 @@ var gameLoop = function ()
 		}
 		else
 		{
-			this.sprites[i].move(0, 10);
+			if(this.sprites[i].getY() > window.innerHeight)
+			{
+				this.sprites.splice(i,1);
+			}
+			else
+			{
+				this.sprites[i].move(0, 10);
+			}
 		}
 	}
 	requestAnimFrame(gameLoop, canvas);
