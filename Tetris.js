@@ -55,13 +55,25 @@ var init = function()
 	var bgm = new Audio("Sound/bgm.mp3");
 	bgm.loop = true;
 	bgm.play();
+
+	//yoshi instantiation
 	var yoshiImage = new Image();
 	yoshiImage.src = "./Graphics/YoshiTest.png"
-	var yoshi = new Sprite(250, 400, 29, 48);
+	var yoshi = new Sprite(250, 400, 30, 48);
 	var runAnim = new Animation(yoshiImage, 0, 0, 30, 48, 12, 4);
 	yoshi.setAnimation(runAnim);
+
+	//trickman instantiation
+	var trickmanImage = new Image();
+	trickmanImage.src = "./Graphics/TrickManAninmationNoBackground.png";
+	var trickman = new Sprite(600, 100, 106, 212);
+	var trickmanAnimation=new Animation(trickmanImage, 0,0,106,212,3,20);
+	trickman.setAnimation(trickmanAnimation);
 	
+	//The sprites get pushed into an array
 	sprites.push(yoshi);
+	sprites.push(trickman);
+
 	
 	gameLoop();
 }
@@ -88,9 +100,10 @@ var rainingBlocks = function()
 	triangleBlockImage.src = "./Graphics/Triangle Block.gif"
 	var triangleBlockAnim = new Animation(triangleBlockImage, 0, 0, 17, 17, 0, 0);
 
-	var numBlocks = Math.floor(Math.random()*10 + 5);
+	var numBlocks = Math.floor(Math.random()*10+ 5);
 	for(var i = 0; i < numBlocks; i++)
 	{
+		//window.innerWidth is the size of the window width
 		var randX = Math.floor(Math.random()*window.innerWidth -26);
 		var newSprite = new Sprite(randX, 0, 17, 17);
 		var blockType = Math.floor(Math.random()*5);
@@ -120,7 +133,7 @@ var gameLoop = function ()
 {
 	clearCanvas();
 	ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
-	rainingBlocks();
+	//rainingBlocks();
 	for(var i = sprites.length-1; i >= 0; i--)
 	{
 		this.sprites[i].draw(ctx);
@@ -136,7 +149,7 @@ var gameLoop = function ()
 			}
 			else
 			{
-				this.sprites[i].move(0, 10);
+				//this.sprites[i].move(0, 10);
 			}
 		}
 	}
