@@ -67,12 +67,20 @@ var init = function()
 	var trickmanImage = new Image();
 	trickmanImage.src = "./Graphics/TrickManAninmationNoBackground.png";
 	var trickman = new Sprite(600, 100, 106, 212);
-	var trickmanAnimation=new Animation(trickmanImage, 0,0,106,212,3,20);
+	var trickmanAnimation=new Animation(trickmanImage, 0,0,106,212,3,8);
 	trickman.setAnimation(trickmanAnimation);
+	
+	//oreo instantiation
+	var oreoImage = new Image();
+	oreoImage.src = "./Graphics/OreoAnimation.png"
+	var oreo = new Sprite(100, 100, 208, 203);
+	var oreoAnimation = new Animation(oreoImage, 0, 0, 208, 203, 3, 4);
+	oreo.setAnimation(oreoAnimation);
 	
 	//The sprites get pushed into an array
 	sprites.push(yoshi);
 	sprites.push(trickman);
+	sprites.push(oreo);
 
 	
 	gameLoop();
@@ -133,7 +141,7 @@ var gameLoop = function ()
 {
 	clearCanvas();
 	ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
-	//rainingBlocks();
+	rainingBlocks();
 	for(var i = sprites.length-1; i >= 0; i--)
 	{
 		this.sprites[i].draw(ctx);
@@ -143,13 +151,16 @@ var gameLoop = function ()
 		}
 		else
 		{
-			if(this.sprites[i].getY() > window.innerHeight)
+			if(i > 2)
 			{
-				this.sprites.splice(i,1);
-			}
-			else
-			{
-				//this.sprites[i].move(0, 10);
+				if(this.sprites[i].getY() > window.innerHeight)
+				{
+					this.sprites.splice(i,1);
+				}
+				else
+				{
+					this.sprites[i].move(0, 10);
+				}
 			}
 		}
 	}
