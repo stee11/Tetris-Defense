@@ -77,10 +77,18 @@ var init = function()
 	var oreoAnimation = new Animation(oreoImage, 0, 0, 208, 203, 3, 4);
 	oreo.setAnimation(oreoAnimation);
 	
+	//Ron Paul instantiation
+	var ronPaulImage = new Image();
+	ronPaulImage.src = "./Graphics/RonPaulAnimation.png"
+	var ronPaul = new Sprite(900, 80, 143, 284);
+	var ronPaulAnimation = new Animation(ronPaulImage, 0, 0, 143, 284, 3, 4);
+	ronPaul.setAnimation(ronPaulAnimation);
+	
 	//The sprites get pushed into an array
 	sprites.push(yoshi);
 	sprites.push(trickman);
 	sprites.push(oreo);
+	sprites.push(ronPaul);
 
 	
 	gameLoop();
@@ -151,7 +159,7 @@ var gameLoop = function ()
 		}
 		else
 		{
-			if(i > 2)
+			if(i > 3)
 			{
 				if(this.sprites[i].getY() > window.innerHeight)
 				{
