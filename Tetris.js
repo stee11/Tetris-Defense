@@ -27,14 +27,10 @@ for(int i = 0; i < 7; i++)
               };
     })();
 
-var canvas = document.getElementById('canvas1');	
-//var canvasWidth = window.innerWidth-25;
-//var canvasHeight = window.innerHeight-25;
-canvas.setAttribute("width", window.innerWidth-25);
-canvas.setAttribute("height", window.innerHeight-25);			
-var ctx = canvas.getContext('2d');
-//canvas.style.width = window.innerWidth;
-//cavas.style.height = window.innerHeight;		
+var canvas = document.getElementById('canvas1');		
+var ctx = canvas.getContext('2d');	
+var sprites = [];
+var frameCounter = 0;
 		
 var clearCanvas = function()
 {
@@ -43,18 +39,14 @@ var clearCanvas = function()
 	ctx.restore();
 }
 
-//background = new Image();
-//background.src = "./Graphics/Background.jpg"
-//background.style.width = '100%'
-//background.style.height = '100%'
-
-var sprites = [];
-
 var init = function()
 {	
 	var bgm = new Audio("Sound/bgm.mp3");
 	bgm.loop = true;
-	bgm.play();
+	//bgm.play();
+	var title = new Audio("Sound/title.mp3");
+	title.loop = true;
+	title.play();
 
 	//yoshi instantiation
 	var yoshiImage = new Image();
@@ -84,7 +76,17 @@ var init = function()
 	var ronPaulAnimation = new Animation(ronPaulImage, 0, 0, 143, 284, 3, 4);
 	ronPaul.setAnimation(ronPaulAnimation);
 	
+	//TitleYoshi instantiation
+	TitleYoshiImage = new Image();
+	TitleYoshiImage.src = "./Graphics/TitleScreenYoshiAnimation.png"
+	TitleYoshi = new Sprite(110, 40, 68, 96);
+	TitleYoshiStill = new Animation(TitleYoshiImage, 0, 0, 68, 96, 1, 0);
+	TitleYoshiBlink = new Animation(TitleYoshiImage, 0, 96, 68, 96, 2, 4);
+	TitleYoshiBabyBlink = new Animation(TitleYoshiImage, 0, 192, 68, 96, 2, 4);
+	TitleYoshi.setAnimation(TitleYoshiStill);
+	
 	//The sprites get pushed into an array
+	sprites.push(TitleYoshi);
 	sprites.push(yoshi);
 	sprites.push(trickman);
 	sprites.push(oreo);
@@ -147,38 +149,65 @@ var rainingBlocks = function()
 
 var titleScreen = function()
 {
-	ctx.fillStyle = "black";
-	ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+	//ctx.fillStyle = "black";
+	//ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "white";
-	ctx.font = "italic 50pt Agency Fb";
-	ctx.fillText("Tetris Defense", window.innerWidth/2.5, window.innerHeight/4);
+	ctx.font = "italic 20pt Agency Fb";
+	ctx.fillText("Tetris Defense!", 90, 35);
+	if(frameCounter > 100)
+	{
+		sprites[0].move(0, -0.2);
+		sprites[0].setAnimation(TitleYoshiBlink);
+	}
+	else
+	{
+		sprites[0].move(0, 0.2);
+	}
+	if(frameCounter > 108)
+	{
+		sprites[0].setAnimation(TitleYoshiStill);
+	}
+	if(frameCounter > 200)
+	{
+		sprites[0].move(0, 0.2);
+		sprites[0].setAnimation(TitleYoshiBabyBlink);
+	}
+	if(frameCounter > 208)
+	{
+		sprites[0].setAnimation(TitleYoshiStill);
+		frameCounter = 0;
+	}
+	sprites[0].draw(ctx);
 	var start = new Image();
 	start.src = "./Graphics/start.png"
-	ctx.drawImage(start, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(3/4)));
+	//ctx.drawImage(start, window.innerWidth/4, window.innerWidth/6, 366, 85);
 	var exit = new Image();
 	exit.src = "./Graphics/exit.png"
-	ctx.drawImage(exit, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(5/6)));
+	//ctx.drawImage(exit, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(5/6)));
 	var arrowImage = new Image();
 	arrowImage.src = "./Graphics/arrow.png"
+	frameCounter++;
 }
 
 var gameLoop = function ()
 {
 	clearCanvas();
-	titleScreen();
 	//ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
-	//rainingBlocks();
-	/*for(var i = sprites.length-1; i >= 0; i--)
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	rainingBlocks();
+	for(var i = sprites.length-1; i >= 0; i--)
 	{
-		this.sprites[i].draw(ctx);
+		//this.sprites[i].draw(ctx);
 		if(i == 0)
 		{
-			this.sprites[i].move(-2, 0);
+			//this.sprites[i].move(-2, 0);
 		}
 		else
 		{
-			if(i > 3)
+			if(i > 4)
 			{
+				this.sprites[i].draw(ctx);
 				if(this.sprites[i].getY() > window.innerHeight)
 				{
 					this.sprites.splice(i,1);
@@ -189,7 +218,8 @@ var gameLoop = function ()
 				}
 			}
 		}
-	}*/
+	}
+	titleScreen();
 	requestAnimFrame(gameLoop, canvas);
 }
 	
