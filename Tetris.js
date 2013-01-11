@@ -43,8 +43,8 @@ var clearCanvas = function()
 	ctx.restore();
 }
 
-background = new Image();
-background.src = "./Graphics/Background.jpg"
+//background = new Image();
+//background.src = "./Graphics/Background.jpg"
 //background.style.width = '100%'
 //background.style.height = '100%'
 
@@ -145,12 +145,30 @@ var rainingBlocks = function()
 	}
 }
 
+var titleScreen = function()
+{
+	ctx.fillStyle = "black";
+	ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+	ctx.fillStyle = "white";
+	ctx.font = "italic 50pt Agency Fb";
+	ctx.fillText("Tetris Defense", window.innerWidth/2.5, window.innerHeight/4);
+	var start = new Image();
+	start.src = "./Graphics/start.png"
+	ctx.drawImage(start, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(3/4)));
+	var exit = new Image();
+	exit.src = "./Graphics/exit.png"
+	ctx.drawImage(exit, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(5/6)));
+	var arrowImage = new Image();
+	arrowImage.src = "./Graphics/arrow.png"
+}
+
 var gameLoop = function ()
 {
 	clearCanvas();
-	ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
-	rainingBlocks();
-	for(var i = sprites.length-1; i >= 0; i--)
+	titleScreen();
+	//ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
+	//rainingBlocks();
+	/*for(var i = sprites.length-1; i >= 0; i--)
 	{
 		this.sprites[i].draw(ctx);
 		if(i == 0)
@@ -171,7 +189,7 @@ var gameLoop = function ()
 				}
 			}
 		}
-	}
+	}*/
 	requestAnimFrame(gameLoop, canvas);
 }
 	
