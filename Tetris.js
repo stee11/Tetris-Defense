@@ -31,6 +31,7 @@ var canvas = document.getElementById('canvas1');
 var ctx = canvas.getContext('2d');	
 var sprites = [];
 var frameCounter = 0;
+var inTitle=true;
 		
 var clearCanvas = function()
 {
@@ -40,7 +41,7 @@ var clearCanvas = function()
 }
 
 var init = function()
-{	
+{
 	var bgm = new Audio("Sound/bgm.mp3");
 	bgm.loop = true;
 	//bgm.play();
@@ -79,15 +80,22 @@ var init = function()
 	//TitleYoshi instantiation
 	TitleYoshiImage = new Image();
 	TitleYoshiImage.src = "./Graphics/TitleScreenYoshiAnimation.png"
-	TitleYoshi = new Sprite(110, 40, 68, 96);
+	TitleYoshi = new Sprite(200, 40, 68, 96);
 	TitleYoshiStill = new Animation(TitleYoshiImage, 0, 0, 68, 96, 1, 0);
 	TitleYoshiBlink = new Animation(TitleYoshiImage, 0, 96, 68, 96, 2, 4);
 	TitleYoshiBabyBlink = new Animation(TitleYoshiImage, 0, 192, 68, 96, 2, 4);
 	TitleYoshi.setAnimation(TitleYoshiStill);
+
+	//Arrow instantiation
+	var arrowImage = new Image();
+	arrowImage.src = "./Graphics/arrow.png";
+	var arrow = new Sprite(40,108,40,25); //  40 for both, 57 for start & 108 for finish
+	var arrowAnimation = new Animation(arrowImage,0,0,232,201,0,0);
+	arrow.setAnimation(arrowAnimation);
 	
 	//The sprites get pushed into an array
 	sprites.push(TitleYoshi);
-	sprites.push(yoshi);
+	sprites.push(arrow);
 	sprites.push(trickman);
 	sprites.push(oreo);
 	sprites.push(ronPaul);
@@ -95,6 +103,48 @@ var init = function()
 	
 	gameLoop();
 }
+
+////////////////////////////
+////////////////////////////
+////////////////////////////
+
+//This is the event used to capture keyevents
+//The internet told me to do it this way
+/*               '.       
+        .-""-._     \ \.--|  
+       /       "-..__) .-'   
+     ಠ_______ಠ             /     
+      \'-.__,   .__.,'       
+       `'----'._\--'  
+     * Whale whale whale, what have we here?
+     */
+canvas.onkeydown = function(evt) {
+       var charCode = evt.which;
+       var charStr = String.fromCharCode(charCode);
+       keyPress(charStr);
+   };
+
+function keyPress(event)
+{
+	if (titleScreen)
+	{
+		if (event=="&" || event=="(")
+		{
+			if (sprites[1].getY()==57)
+				sprites[1].y=108;
+			else
+				sprites[1].y=57;
+		}
+	}
+	else
+	{
+
+	}
+}
+
+////////////////////////////
+////////////////////////////
+///////////////////////////
 
 var rainingBlocks = function()
 {
@@ -149,6 +199,7 @@ var rainingBlocks = function()
 
 var titleScreen = function()
 {
+	
 	var logo = new Image();
 	logo.src="./Graphics/Logo.png";
 	ctx.drawImage(logo, 90,10);
@@ -157,25 +208,25 @@ var titleScreen = function()
 	//ctx.fillStyle = "white";
 	//ctx.font = "italic 20pt /Fonts/AGENCYB.ttf";
 	//ctx.fillText("Tetris Defense!", 90, 35);
-	if(frameCounter > 100)
+	if(frameCounter > 50)
 	{
-		sprites[0].move(0, -0.2);
+		sprites[0].move(0, -0.4);
 		sprites[0].setAnimation(TitleYoshiBlink);
 	}
 	else
 	{
-		sprites[0].move(0, 0.2);
+		sprites[0].move(0, 0.4);
 	}
-	if(frameCounter > 108)
+	if(frameCounter > 54)
 	{
 		sprites[0].setAnimation(TitleYoshiStill);
 	}
-	if(frameCounter > 200)
+	if(frameCounter > 100)
 	{
-		sprites[0].move(0, 0.2);
+		sprites[0].move(0, 0.4);
 		sprites[0].setAnimation(TitleYoshiBabyBlink);
 	}
-	if(frameCounter > 208)
+	if(frameCounter > 104)
 	{
 		sprites[0].setAnimation(TitleYoshiStill);
 		frameCounter = 0;
@@ -190,41 +241,91 @@ var titleScreen = function()
 	var arrowImage = new Image();
 	arrowImage.src = "./Graphics/arrow.png"
 	frameCounter++;
+	var start = new Image();
+	start.src = "./Graphics/start.png"
+	ctx.drawImage(start, 90, 50, 60, 40);
+	var exit = new Image();
+	exit.src = "./Graphics/exit.png"
+	ctx.drawImage(exit, 90, 100, 60, 40);
+
+	if(frameCounter >= 0 && frameCounter <= 13)
+	{
+		//console.log("first called")
+		sprites[1].move(-0.8, 0);
+	}
+	else if (frameCounter > 13 && frameCounter <= 26)
+	{
+		//console.log("second called")
+		sprites[1].move(0.8, 0);
+	}
+	else if(frameCounter <= 39 && frameCounter > 26)
+	{
+		//console.log("third called")
+		sprites[1].move(-.8,0);
+	}
+	else if(frameCounter >39 && frameCounter <= 52)
+	{
+		//console.log("fourth called")
+		sprites[1].move(0.8, 0);
+	}
+	else if (frameCounter >52 && frameCounter <= 65)
+	{
+		//console.log("fifth called")
+		sprites[1].move(-.8,0);
+	}
+	else if (frameCounter >65 && frameCounter <= 78)
+	{
+		//console.log("sixth called")
+		sprites[1].move(.8, 0);
+	}
+	else if(frameCounter <= 91 && frameCounter > 78)
+	{
+		//console.log("seventh called")
+		sprites[1].move(-.8,0);
+	}
+	else if(frameCounter > 91 && frameCounter <=104)
+	{
+		//console.log("eigth called")
+		sprites[1].move(0.8, 0);
+	}
+
 }
 
 var gameLoop = function ()
 {
+	rainingBlocks();
 	clearCanvas();
 	//ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	rainingBlocks();
-	for(var i = sprites.length-1; i >= 0; i--)
-	{
-		//this.sprites[i].draw(ctx);
-		if(i == 0)
+		for(var i = sprites.length-1; i >= 0; i--)
 		{
-			//this.sprites[i].move(-2, 0);
-		}
-		else
-		{
-			if(i > 4)
+			//this.sprites[i].draw(ctx);
+			if(i == 1)
 			{
 				this.sprites[i].draw(ctx);
-				if(this.sprites[i].getY() > window.innerHeight)
+			}
+			else
+			{
+				if(i > 4)
 				{
-					this.sprites.splice(i,1);
-				}
-				else
-				{
-					this.sprites[i].move(0, 1);
+					this.sprites[i].draw(ctx);
+					if(this.sprites[i].getY() > window.innerHeight)
+					{
+						this.sprites.splice(i,1);
+					}
+					else
+					{
+						this.sprites[i].move(0, 2);
+					}
 				}
 			}
 		}
-	}
-	titleScreen();
-	requestAnimFrame(gameLoop, canvas);
-}
-	
+		if (inTitle)
+		{	
+			titleScreen();
+		}	
+		requestAnimFrame(gameLoop, canvas);
+}	
 	
 
