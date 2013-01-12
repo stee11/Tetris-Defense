@@ -46,7 +46,7 @@ var init = function()
 	//bgm.play();
 	var title = new Audio("Sound/title.mp3");
 	title.loop = true;
-	title.play();
+	//title.play();
 
 	//yoshi instantiation
 	var yoshiImage = new Image();
@@ -118,7 +118,7 @@ var rainingBlocks = function()
 	triangleBlockImage.src = "./Graphics/Triangle Block.gif"
 	var triangleBlockAnim = new Animation(triangleBlockImage, 0, 0, 17, 17, 0, 0);
 
-	var numBlocks = Math.floor(Math.random()*10+ 5);
+	var numBlocks = Math.floor(Math.random()*0+ 1);
 	for(var i = 0; i < numBlocks; i++)
 	{
 		//window.innerWidth is the size of the window width
@@ -149,11 +149,14 @@ var rainingBlocks = function()
 
 var titleScreen = function()
 {
+	var logo = new Image();
+	logo.src="./Graphics/Logo.png";
+	ctx.drawImage(logo, 90,10);
 	//ctx.fillStyle = "black";
 	//ctx.fillRect(0, 0, canvas.width, canvas.height);
-	ctx.fillStyle = "white";
-	ctx.font = "italic 20pt Agency Fb";
-	ctx.fillText("Tetris Defense!", 90, 35);
+	//ctx.fillStyle = "white";
+	//ctx.font = "italic 20pt /Fonts/AGENCYB.ttf";
+	//ctx.fillText("Tetris Defense!", 90, 35);
 	if(frameCounter > 100)
 	{
 		sprites[0].move(0, -0.2);
@@ -214,7 +217,7 @@ var gameLoop = function ()
 				}
 				else
 				{
-					this.sprites[i].move(0, 10);
+					this.sprites[i].move(0, 1);
 				}
 			}
 		}
