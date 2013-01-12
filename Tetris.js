@@ -32,6 +32,10 @@ var ctx = canvas.getContext('2d');
 var sprites = [];
 var frameCounter = 0;
 var inTitle=true;
+
+var title = new Audio("Sound/title.mp3");
+title.loop = true;
+title.play();
 		
 var clearCanvas = function()
 {
@@ -40,13 +44,25 @@ var clearCanvas = function()
 	ctx.restore();
 }
 
+var muteButton = function()
+{
+	if(title.paused)
+	{
+		title.play();
+		document.getElementById("Mute").src = "./Graphics/AudioIcon.png"
+	}
+	else
+	{
+		title.pause();
+		document.getElementById("Mute").src = "./Graphics/AudioIconMute.png"
+	}
+}
+	
 var init = function()
 {
 	var bgm = new Audio("Sound/bgm.mp3");
 	bgm.loop = true;
 	//bgm.play();
-	var title = new Audio("Sound/title.mp3");
-	title.loop = true;
 	//title.play();
 
 	//yoshi instantiation
@@ -318,6 +334,8 @@ var gameLoop = function ()
 					{
 						this.sprites[i].move(0, 2);
 					}
+
+					this.sprites[i].move(0, 2);
 				}
 			}
 		}
