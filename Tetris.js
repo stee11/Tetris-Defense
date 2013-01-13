@@ -33,7 +33,7 @@ var sprites = [];
 var frameCounter = 0;
 var inTitle=true;
 
-var title = new Audio("Sound/title.mp3");
+var title = new Audio("./Sound/Newtitle.wav");
 title.loop = true;
 title.play();
 		
@@ -140,6 +140,38 @@ canvas.onkeydown = function(evt) {
        keyPress(charStr);
    };
 
+canvas.onclick=function(evt) {
+	//console.log("x is: "+evt.offsetX+"\ny is: "+evt.offsetY); 
+	//Use this line above to find x and y of a click
+	mouseClick(evt);
+
+};
+
+//This function is called by the canvas.onclick. The event object is passed to it and the 
+//offsetX and offsetY variables are manipulated. They are the x and y values in respect to 
+//the user's canvas.
+function mouseClick(MouseEvent)
+{
+	if (titleScreen)
+	{
+		if (MouseEvent.offsetX > 225 && MouseEvent.offsetX < 410)
+		{
+			if (MouseEvent.offsetY>195 && MouseEvent.offsetY < 360)
+			{
+				sprites[1].y=57;
+			}
+			else
+			{
+				if(MouseEvent.offsetY > 392 && MouseEvent.offsetY<565)
+					sprites[1].y=108;
+			}
+		}
+	}
+	else
+	{
+
+	}
+}
 function keyPress(event)
 {
 	if (titleScreen)
@@ -251,8 +283,6 @@ var titleScreen = function()
 	var start = new Image();
 	start.src = "./Graphics/start.png"
 	//ctx.drawImage(start, window.innerWidth/4, window.innerWidth/6, 366, 85);
-	var exit = new Image();
-	exit.src = "./Graphics/exit.png"
 	//ctx.drawImage(exit, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(5/6)));
 	var arrowImage = new Image();
 	arrowImage.src = "./Graphics/arrow.png"
@@ -261,7 +291,7 @@ var titleScreen = function()
 	start.src = "./Graphics/start.png"
 	ctx.drawImage(start, 90, 50, 60, 40);
 	var exit = new Image();
-	exit.src = "./Graphics/exit.png"
+	exit.src = "./Graphics/exit1.png"
 	ctx.drawImage(exit, 90, 100, 60, 40);
 
 	if(frameCounter >= 0 && frameCounter <= 13)
