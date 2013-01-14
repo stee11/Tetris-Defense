@@ -11,12 +11,17 @@ window.requestAnimFrame = (function(){
     })();
 //These are not the global variables you are looking for
 var canvas = document.getElementById('canvas1');		
-var ctx = canvas.getContext('2d');	
-var sprites = [];
+var ctx = canvas.getContext('2d');
 var frameCounter = 0;
-var inTitle=true;
+var sprites = [];
 var titleArray =[];
 var blockArray =[];
+var charArray=[];
+
+//Global bools
+var inTitle=true;
+var inChar=false;
+var inGame=false;
 
 //Audio instantiation for title screen
 var title = new Audio("./Sound/Newtitle.wav");
@@ -105,16 +110,21 @@ var init = function()
 	arrow.setAnimation(arrowAnimation);
 
 	//Title Instantiation
-	var logo = new Image();
-	logo.src="./Graphics/Logo.png";
+	titleArray[0] =new Image();
+	titleArray[0].src="./Graphics/Logo.png";
 
 	//Exit Instantiation
-	var exit = new Image();
-	exit.src = "./Graphics/exit1.png"
+	titleArray[2] =new Image();
+	titleArray[2].src="./Graphics/exit1.png";
 
 	//Start Instantiation
-	var start = new Image();
-	start.src = "./Graphics/start.png"
+	titleArray[1] =new Image();
+	titleArray[1].src="./Graphics/start.png";
+
+	//Char select screen instantiation
+	charArray[0] = new Image();
+	charArray[0].src="./Graphics/CharacterSelectBackground.png";
+
 
 	//The sprites get pushed into an array
 	sprites.push(TitleYoshi);
@@ -122,10 +132,6 @@ var init = function()
 	sprites.push(trickman);
 	sprites.push(oreo);
 	sprites.push(ronPaul);
-
-	titleArray.push(logo);
-	titleArray.push(start);
-	titleArray.push(exit);
 	
 	gameLoop();
 }
@@ -166,7 +172,21 @@ function mouseClick(MouseEvent)
 		{
 			if (MouseEvent.offsetY>195 && MouseEvent.offsetY < 360)
 			{
-				sprites[1].y=57;
+				if (sprites[1].y==57)
+				{
+					inTitle=false;
+					inChar=true;
+					for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
+					{
+						sprites.splice(i, 1);
+					}
+					for (var i=titleArray.length-1; i >=0; i--)
+					{
+						titleArray.splice(i, 1)
+					}
+				}
+				else
+					sprites[1].y=57;
 			}
 			else
 			{
@@ -182,7 +202,11 @@ function mouseClick(MouseEvent)
 			}
 		}
 	}
-	else //If not in title screen
+	else if(inChar)
+	{
+		//Will be added later
+	}
+	else
 	{
 		//Will be added later
 	}
@@ -245,7 +269,10 @@ var rainingBlocks = function()
 			}
 		}		
 }
-
+function charSelectScreen()
+{
+	ctx.drawImage(charArray[0],0,0);
+}
 var titleScreen = function(title, start, exit)
 {
 	// Animation for yoshi moving up and down
@@ -315,19 +342,25 @@ var titleScreen = function(title, start, exit)
 		sprites[1].move(0.8, 0);
 	}
 }
-
 var gameLoop = function ()
 {
 	clearCanvas();
 	ctx.fillStyle = "black";
-	console.log(sprites.length);
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	rainingBlocks();
 	if (inTitle)
 	{
+		rainingBlocks();
 		sprites[1].draw(ctx); //the arrow	
 		titleScreen(titleArray[0], titleArray[1], titleArray[2]);
+	}
+	else if (inChar)
+	{
+		charSelectScreen();
 	}	
+	else if (inGame)
+	{
+
+	}
 	requestAnimFrame(gameLoop, canvas);
 }	
 	
