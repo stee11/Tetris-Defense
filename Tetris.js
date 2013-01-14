@@ -12,6 +12,9 @@ window.requestAnimFrame = (function(){
 //These are not the global variables you are looking for
 var canvas = document.getElementById('canvas1');		
 var ctx = canvas.getContext('2d');
+canvas.width = 800;
+canvas.height = 600;
+
 var frameCounter = 0;
 var sprites = [];
 var titleArray =[];
@@ -96,7 +99,8 @@ var init = function()
 	//TitleYoshi instantiation
 	TitleYoshiImage = new Image();
 	TitleYoshiImage.src = "./Graphics/TitleScreenYoshiAnimation.png"
-	TitleYoshi = new Sprite(200, 40, 68, 96);
+	//TitleYoshi = new Sprite(200, 40, 68, 96);
+	TitleYoshi = new Sprite(440, 220, 204, 288);
 	TitleYoshiStill = new Animation(TitleYoshiImage, 0, 0, 68, 96, 1, 0);
 	TitleYoshiBlink = new Animation(TitleYoshiImage, 0, 96, 68, 96, 2, 4);
 	TitleYoshiBabyBlink = new Animation(TitleYoshiImage, 0, 192, 68, 96, 2, 4);
@@ -105,7 +109,8 @@ var init = function()
 	//Arrow instantiation
 	var arrowImage = new Image();
 	arrowImage.src = "./Graphics/arrow.png";
-	var arrow = new Sprite(40,57,40,25); //  40 for both, 57 for start & 108 for finish
+	//var arrow = new Sprite(40,57,40,25); //  40 for both, 57 for start & 108 for finish
+	var arrow = new Sprite(30,240,120,75);
 	var arrowAnimation = new Animation(arrowImage,0,0,232,201,0,0);
 	arrow.setAnimation(arrowAnimation);
 
@@ -172,7 +177,7 @@ function mouseClick(MouseEvent)
 		{
 			if (MouseEvent.offsetY>195 && MouseEvent.offsetY < 360)
 			{
-				if (sprites[1].y==57)
+				if (sprites[1].y==240)
 				{
 					inTitle=false;
 					inChar=true;
@@ -186,18 +191,18 @@ function mouseClick(MouseEvent)
 					}
 				}
 				else
-					sprites[1].y=57;
+					sprites[1].y=240;
 			}
 			else
 			{
 				if(MouseEvent.offsetY > 392 && MouseEvent.offsetY<565)
 				{
-						if(sprites[1].y==108)
+						if(sprites[1].y==415)
 						{
 							window.location="http://whotookspaz.org/randomflash/slowpoked.swf";
 						}
 						else
-							sprites[1].y=108;
+							sprites[1].y=415;
 				}
 			}
 		}
@@ -215,12 +220,36 @@ function keyPress(event)
 {
 	if (inTitle)
 	{
-		if (event=="&" || event=="(")
+		if(event == 13)
 		{
-			if (sprites[1].getY()==57)
-				sprites[1].y=108;
+			if(sprites[1].getY()==240)
+			{
+				inTitle=false;
+				inChar=true;
+				for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
+				{
+					sprites.splice(i, 1);
+				}
+				for (var i=titleArray.length-1; i >=0; i--)
+				{
+					titleArray.splice(i, 1)
+				}
+			}
 			else
-				sprites[1].y=57;
+			{
+				window.location="http://whotookspaz.org/randomflash/slowpoked.swf";
+			}
+		}
+		else
+		{
+		
+			if (event=="&" || event=="(")
+			{
+				if (sprites[1].getY()==240)
+					sprites[1].y=415;
+				else
+					sprites[1].y=240;
+			}
 		}
 	}
 	else //If not in title screen
@@ -236,7 +265,7 @@ var rainingBlocks = function()
 	{
 		var randX = Math.floor(Math.random()*canvas.width-17);
 		var blockType = Math.floor(Math.random()*5);
-		sprites.push(new Sprite(randX,0,17,17));
+		sprites.push(new Sprite(randX,0,25,25));
 		switch(blockType)
 		{
 			case 0:
@@ -269,10 +298,12 @@ var rainingBlocks = function()
 			}
 		}		
 }
+
 function charSelectScreen()
 {
 	ctx.drawImage(charArray[0],0,0);
 }
+
 var titleScreen = function(title, start, exit)
 {
 	// Animation for yoshi moving up and down
@@ -302,9 +333,12 @@ var titleScreen = function(title, start, exit)
 	//adds a counter to frame number
 	frameCounter++;
 	//draws the title screen exit, start, and logo images
-	ctx.drawImage(titleArray[2], 90, 100, 60, 40); //exit
-	ctx.drawImage(titleArray[0], 90,10); //title
-	ctx.drawImage(titleArray[1], 90, 50, 60, 40); //start
+	//ctx.drawImage(titleArray[2], 90, 100, 60, 40); //exit
+	ctx.drawImage(titleArray[2], 160, 400, 180, 120); //exit
+	//ctx.drawImage(titleArray[0], 90, 10); //title
+	ctx.drawImage(titleArray[0], 60, 50, 702, 166.5); //title
+	//ctx.drawImage(titleArray[1], 90, 50, 60, 40); //start
+	ctx.drawImage(titleArray[1], 160, 220, 180, 120); //start
 	//draws yoshi going up and down
 	sprites[0].draw(ctx); //title yoshi
 
