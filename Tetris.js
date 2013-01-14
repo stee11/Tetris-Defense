@@ -26,12 +26,13 @@ for(int i = 0; i < 7; i++)
                 window.setTimeout(callback, 1000 / 60);
               };
     })();
-
 var canvas = document.getElementById('canvas1');		
 var ctx = canvas.getContext('2d');	
 var sprites = [];
 var frameCounter = 0;
 var inTitle=true;
+var titleArray =[];
+var blockArray =[];
 
 var title = new Audio("./Sound/Newtitle.wav");
 title.loop = true;
@@ -64,6 +65,19 @@ var init = function()
 	bgm.loop = true;
 	//bgm.play();
 	//title.play();
+
+	//block instantiation. Alphabetical order by shape
+	blockArray[0]=new Animation(new Image(), 0,0,17,17,0,0);
+	blockArray[0].image.src="./Graphics/Circle Block.gif";
+	blockArray[2]=new Animation(new Image(), 0,0,17,17,0,0);
+	blockArray[2].image.src="./Graphics/Heart Block.gif";
+	blockArray[1]=new Animation(new Image(), 0,0,17,17,0,0);
+	blockArray[1].image.src="./Graphics/Diamond Block.gif";
+	blockArray[3]=new Animation(new Image(), 0,0,17,17,0,0);
+	blockArray[3].image.src="./Graphics/Star Block.gif";
+	blockArray[4]=new Animation(new Image(), 0,0,17,17,0,0);
+	blockArray[4].image.src="./Graphics/Triangle Block.gif";
+
 
 	//yoshi instantiation
 	var yoshiImage = new Image();
@@ -105,16 +119,32 @@ var init = function()
 	//Arrow instantiation
 	var arrowImage = new Image();
 	arrowImage.src = "./Graphics/arrow.png";
-	var arrow = new Sprite(40,108,40,25); //  40 for both, 57 for start & 108 for finish
+	var arrow = new Sprite(40,57,40,25); //  40 for both, 57 for start & 108 for finish
 	var arrowAnimation = new Animation(arrowImage,0,0,232,201,0,0);
 	arrow.setAnimation(arrowAnimation);
-	
+
+	//Title Instantiation
+	var logo = new Image();
+	logo.src="./Graphics/Logo.png";
+	//Exit Instantiation
+	var exit = new Image();
+	exit.src = "./Graphics/exit1.png"
+
+	//Start Instantiation
+	var start = new Image();
+	start.src = "./Graphics/start.png"
+
 	//The sprites get pushed into an array
 	sprites.push(TitleYoshi);
 	sprites.push(arrow);
 	sprites.push(trickman);
 	sprites.push(oreo);
 	sprites.push(ronPaul);
+
+	titleArray.push(logo);
+	titleArray.push(start);
+	titleArray.push(exit);
+
 
 	
 	gameLoop();
@@ -152,7 +182,7 @@ canvas.onclick=function(evt) {
 //the user's canvas.
 function mouseClick(MouseEvent)
 {
-	if (titleScreen)
+	if (inTitle)
 	{
 		if (MouseEvent.offsetX > 225 && MouseEvent.offsetX < 410)
 		{
@@ -163,7 +193,15 @@ function mouseClick(MouseEvent)
 			else
 			{
 				if(MouseEvent.offsetY > 392 && MouseEvent.offsetY<565)
-					sprites[1].y=108;
+				{
+						if(sprites[1].y==108)
+						{
+							window.location="http://whotookspaz.org/randomflash/slowpoked.swf";
+						}
+						else
+							sprites[1].y=108;
+
+				}
 			}
 		}
 	}
@@ -174,7 +212,7 @@ function mouseClick(MouseEvent)
 }
 function keyPress(event)
 {
-	if (titleScreen)
+	if (inTitle)
 	{
 		if (event=="&" || event=="(")
 		{
@@ -196,7 +234,12 @@ function keyPress(event)
 
 var rainingBlocks = function()
 {
-	var circleBlockImage = new Image();
+	//global
+	//init
+	//var circleBlockImage  = new Image().src="./Graphics/Circle Block.gif";
+	//circleBlockImage.src = "./Graphics/Circle Block.gif"
+
+	/*var circleBlockImage = new Image();
 	circleBlockImage.src = "./Graphics/Circle Block.gif"
 	var circleBlockAnim = new Animation(circleBlockImage, 0, 0, 17, 17, 0, 0);
 	
@@ -214,43 +257,50 @@ var rainingBlocks = function()
 	
 	var triangleBlockImage = new Image();
 	triangleBlockImage.src = "./Graphics/Triangle Block.gif"
-	var triangleBlockAnim = new Animation(triangleBlockImage, 0, 0, 17, 17, 0, 0);
+	var triangleBlockAnim = new Animation(triangleBlockImage, 0, 0, 17, 17, 0, 0);*/
 
 	var numBlocks = Math.floor(Math.random()*0+ 1);
 	for(var i = 0; i < numBlocks; i++)
 	{
 		//window.innerWidth is the size of the window width
 		var randX = Math.floor(Math.random()*window.innerWidth -26);
-		var newSprite = new Sprite(randX, 0, 17, 17);
+		//var newSprite = new Sprite(randX, 0, 17, 17);
 		var blockType = Math.floor(Math.random()*5);
+		//blockType=0;
+		//console.log(new Sprite(randX,0,17,17).setAnimation(blockArray[0]))
 		switch(blockType)
 		{
 			case 0:
-				newSprite.setAnimation(circleBlockAnim);
+				sprites.push(new Sprite(randX,0,17,17));
+				sprites[sprites.length-1].setAnimation(blockArray[0]);
+				//newSprite.setAnimation(circleBlockAnim);
+				//console.log(newSprite);
 				break;
 			case 1:
-				newSprite.setAnimation(heartBlockAnim);
+				sprites.push(new Sprite(randX,0,17,17));
+				sprites[sprites.length-1].setAnimation(blockArray[1]);
 				break;
 			case 2:
-				newSprite.setAnimation(diamondBlockAnim);
+				sprites.push(new Sprite(randX,0,17,17));
+				sprites[sprites.length-1].setAnimation(blockArray[2]);
 				break;
 			case 3:
-				newSprite.setAnimation(starBlockAnim);
+				sprites.push(new Sprite(randX,0,17,17));
+				sprites[sprites.length-1].setAnimation(blockArray[3]);
 				break;
 			case 4:
-				newSprite.setAnimation(triangleBlockAnim);
+				sprites.push(new Sprite(randX,0,17,17));
+				sprites[sprites.length-1].setAnimation(blockArray[4]);
 				break;
 		}
-		sprites.push(newSprite);
+		console.log(sprites[sprites.length-1]);
+		sprites[sprites.length-1].draw();
+		//sprites.push(newSprite);
 	}
 }
 
-var titleScreen = function()
+var titleScreen = function(title, start, exit)
 {
-	
-	var logo = new Image();
-	logo.src="./Graphics/Logo.png";
-	ctx.drawImage(logo, 90,10);
 	//ctx.fillStyle = "black";
 	//ctx.fillRect(0, 0, canvas.width, canvas.height);
 	//ctx.fillStyle = "white";
@@ -279,20 +329,13 @@ var titleScreen = function()
 		sprites[0].setAnimation(TitleYoshiStill);
 		frameCounter = 0;
 	}
-	sprites[0].draw(ctx);
-	var start = new Image();
-	start.src = "./Graphics/start.png"
 	//ctx.drawImage(start, window.innerWidth/4, window.innerWidth/6, 366, 85);
 	//ctx.drawImage(exit, 0, 0, window.innerWidth/2.5, window.innerHeight*(window.innerHeight*(5/6)));
-	var arrowImage = new Image();
-	arrowImage.src = "./Graphics/arrow.png"
 	frameCounter++;
-	var start = new Image();
-	start.src = "./Graphics/start.png"
-	ctx.drawImage(start, 90, 50, 60, 40);
-	var exit = new Image();
-	exit.src = "./Graphics/exit1.png"
 	ctx.drawImage(exit, 90, 100, 60, 40);
+	ctx.drawImage(title, 90,10);
+	ctx.drawImage(start, 90, 50, 60, 40);
+	sprites[0].draw(ctx);
 
 	if(frameCounter >= 0 && frameCounter <= 13)
 	{
@@ -343,6 +386,7 @@ var gameLoop = function ()
 	clearCanvas();
 	//ctx.drawImage(background, 0, 0, window.innerWidth, window.innerHeight);
 	ctx.fillStyle = "black";
+	console.log(sprites.length);
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 		for(var i = sprites.length-1; i >= 0; i--)
 		{
@@ -355,10 +399,12 @@ var gameLoop = function ()
 			{
 				if(i > 4)
 				{
-					this.sprites[i].draw(ctx);
-					if(this.sprites[i].getY() > window.innerHeight)
+					sprites[i].draw(ctx);
+					//console.log(canvas.height)
+					if(this.sprites[i].getY() > canvas.height)
 					{
-						this.sprites.splice(i,1);
+						//console.log("yolo");
+						this.sprites.splice(sprites.length-1, 1);
 					}
 					else
 					{
@@ -370,8 +416,9 @@ var gameLoop = function ()
 			}
 		}
 		if (inTitle)
-		{	
-			titleScreen();
+		{
+			//console.log("called");	
+			titleScreen(titleArray[0], titleArray[1], titleArray[2]);
 		}	
 		requestAnimFrame(gameLoop, canvas);
 }	
