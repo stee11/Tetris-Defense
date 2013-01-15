@@ -99,7 +99,7 @@ var init = function()
 	//TitleYoshi instantiation
 	TitleYoshiImage = new Image();
 	TitleYoshiImage.src = "./Graphics/TitleScreenYoshiAnimation.png"
-	//TitleYoshi = new Sprite(200, 40, 68, 96);
+	//TitleYoshi = new Sprite(200, 40, 68, 96); This used to be the old size
 	TitleYoshi = new Sprite(440, 220, 204, 288);
 	TitleYoshiStill = new Animation(TitleYoshiImage, 0, 0, 68, 96, 1, 0);
 	TitleYoshiBlink = new Animation(TitleYoshiImage, 0, 96, 68, 96, 2, 4);
@@ -155,8 +155,7 @@ var init = function()
 //The keyboard down event
 canvas.onkeydown = function(evt) {
        var charCode = evt.which;
-       var charStr = String.fromCharCode(charCode);
-       keyPress(charStr);
+       keyPress(charCode);
    };
 
 //The mouse click event
@@ -173,9 +172,9 @@ function mouseClick(MouseEvent)
 {
 	if (inTitle)
 	{
-		if (MouseEvent.offsetX > 225 && MouseEvent.offsetX < 410)
+		if (MouseEvent.offsetX > 150 && MouseEvent.offsetX < 348)
 		{
-			if (MouseEvent.offsetY>195 && MouseEvent.offsetY < 360)
+			if (MouseEvent.offsetY>215 && MouseEvent.offsetY < 350)
 			{
 				if (sprites[1].y==240)
 				{
@@ -195,7 +194,7 @@ function mouseClick(MouseEvent)
 			}
 			else
 			{
-				if(MouseEvent.offsetY > 392 && MouseEvent.offsetY<565)
+				if(MouseEvent.offsetY > 392 && MouseEvent.offsetY<530)
 				{
 						if(sprites[1].y==415)
 						{
@@ -242,8 +241,7 @@ function keyPress(event)
 		}
 		else
 		{
-		
-			if (event=="&" || event=="(")
+			if (event==40 || event==38)
 			{
 				if (sprites[1].getY()==240)
 					sprites[1].y=415;
@@ -332,13 +330,17 @@ var titleScreen = function(title, start, exit)
 	}
 	//adds a counter to frame number
 	frameCounter++;
+	
 	//draws the title screen exit, start, and logo images
-	//ctx.drawImage(titleArray[2], 90, 100, 60, 40); //exit
+	//ctx.drawImage(titleArray[2], 90, 100, 60, 40); //old exit
 	ctx.drawImage(titleArray[2], 160, 400, 180, 120); //exit
-	//ctx.drawImage(titleArray[0], 90, 10); //title
+
+	//ctx.drawImage(titleArray[0], 90, 10); // old title
 	ctx.drawImage(titleArray[0], 60, 50, 702, 166.5); //title
-	//ctx.drawImage(titleArray[1], 90, 50, 60, 40); //start
+
+	//ctx.drawImage(titleArray[1], 90, 50, 60, 40); //old start
 	ctx.drawImage(titleArray[1], 160, 220, 180, 120); //start
+
 	//draws yoshi going up and down
 	sprites[0].draw(ctx); //title yoshi
 
