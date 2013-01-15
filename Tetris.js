@@ -127,9 +127,21 @@ var init = function()
 	titleArray[1].src="./Graphics/start.png";
 
 	//Char select screen instantiation
-	charArray[0] = new Image();
-	charArray[0].src="./Graphics/CharacterSelectBackground.png";
+	charArray[2] = new Image();
+	charArray[2].src="./Graphics/CharacterSelectBackground.png";
 
+	//The player 1 selection box
+	var p1SelectImage=new Image();
+	p1SelectImage.src="./Graphics/1PCharPointer.png";
+	charArray[3] = new Sprite(40,40,90,90);
+
+	//The player 1 selection box animations
+	charArray[0]=new Animation(p1SelectImage,0,0,92,92,0,0); //Animation for regular
+	charArray[1]=new Animation(p1SelectImage,0,0,92,92,2,5); //Animation for selection
+	charArray[3].setAnimation(charArray[0]);
+
+	//starts at 0,0
+	//height/2
 
 	//The sprites get pushed into an array
 	sprites.push(TitleYoshi);
@@ -160,7 +172,7 @@ canvas.onkeydown = function(evt) {
 
 //The mouse click event
 canvas.onclick=function(evt) {
-	//console.log("x is: "+evt.offsetX+"\ny is: "+evt.offsetY); 
+	console.log("x is: "+evt.offsetX+"\ny is: "+evt.offsetY); 
 	//Use this line above to find x and y of a click
 	mouseClick(evt);
 };
@@ -184,10 +196,6 @@ function mouseClick(MouseEvent)
 					{
 						sprites.splice(i, 1);
 					}
-					for (var i=titleArray.length-1; i >=0; i--)
-					{
-						titleArray.splice(i, 1)
-					}
 				}
 				else
 					sprites[1].y=240;
@@ -206,9 +214,168 @@ function mouseClick(MouseEvent)
 			}
 		}
 	}
-	else if(inChar)
+	else if(inChar) //Not in title
 	{
-		//Will be added later
+		if (MouseEvent.offsetX > 50 && MouseEvent.offsetX < 122) //Firt Collumn X
+		{
+			if (MouseEvent.offsetY > 50 && MouseEvent.offsetY < 122) //First Character
+			{
+				if (charArray[3].x==40 && charArray[3].y==40)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=40; charArray[3].y=40;
+				}
+					
+			}
+			else if (MouseEvent.offsetY > 193 && MouseEvent.offsetY < 265) //Second
+			{
+				if (charArray[3].x==40 && charArray[3].y==183)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=40; charArray[3].y=183;
+				}
+			}
+			else if (MouseEvent.offsetY > 385 && MouseEvent.offsetY < 458) //Ron Paul 2012
+			{
+				if (charArray[3].x==40 && charArray[3].y==376)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=40; charArray[3].y=376;
+				}
+			}
+		}
+		else if(MouseEvent.offsetX > 160 && MouseEvent.offsetX < 233) //Second Collumn X
+		{
+			if (MouseEvent.offsetY > 50 && MouseEvent.offsetY < 122) //First Character (Penguin)
+			{
+				if (charArray[3].x==150 && charArray[3].y==40)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=150; charArray[3].y=40;
+				}	
+			}
+			else if (MouseEvent.offsetY > 193 && MouseEvent.offsetY < 265) //Second (Goomba)
+			{
+				if (charArray[3].x==150 && charArray[3].y==183)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=150; charArray[3].y=183;
+				}
+			}
+			else if (MouseEvent.offsetY > 385 && MouseEvent.offsetY < 458) //Tyler Trickman
+			{
+				if (charArray[3].x==150 && charArray[3].y==376)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=150; charArray[3].y=376;
+				}
+			}
+		}
+		else if(MouseEvent.offsetX > 270 && MouseEvent.offsetX < 343) //Third Collumn X
+		{
+			if (MouseEvent.offsetY > 50 && MouseEvent.offsetY < 122) //First Character (Poo-seed)
+			{
+				if (charArray[3].x==260 && charArray[3].y==40)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=260; charArray[3].y=40;
+				}
+			}
+			else if (MouseEvent.offsetY > 193 && MouseEvent.offsetY < 265) //Second (Green Creature guy)
+			{
+				if (charArray[3].x==260 && charArray[3].y==183)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=260; charArray[3].y=183;
+				}
+			}
+			else if (MouseEvent.offsetY > 385 && MouseEvent.offsetY < 458) //Oreo Man
+			{
+				if (charArray[3].x==260 && charArray[3].y==376)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=260; charArray[3].y=376;
+				}
+			}
+		}
+		else if(MouseEvent.offsetX > 380 && MouseEvent.offsetX < 453) //Fourth Collumn X
+		{
+			if (MouseEvent.offsetY > 50 && MouseEvent.offsetY < 122) //First Character (Flower Guy)
+			{
+				if (charArray[3].x==370 && charArray[3].y==40)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=370; charArray[3].y=40;
+				}
+			}
+			else if (MouseEvent.offsetY > 193 && MouseEvent.offsetY < 265) //Second (Darker Penguin guy)
+			{
+				if (charArray[3].x==370 && charArray[3].y==183)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=370; charArray[3].y=183;
+				}
+			}
+		}
+		else if(MouseEvent.offsetX > 490 && MouseEvent.offsetX < 563) //LAST X COLLUMN BITCHES!
+		{
+			if (MouseEvent.offsetY > 193 && MouseEvent.offsetY < 265) //First Character (Yoshi)
+			{
+				if (charArray[3].x==480 && charArray[3].y==183)
+				{
+					charArray[3].setAnimation(charArray[1]);
+				}
+				else
+				{
+					charArray[3].setAnimation(charArray[0]);
+					charArray[3].x=480; charArray[3].y=183;
+				}
+			}
+		}
 	}
 	else
 	{
@@ -229,10 +396,6 @@ function keyPress(event)
 				{
 					sprites.splice(i, 1);
 				}
-				for (var i=titleArray.length-1; i >=0; i--)
-				{
-					titleArray.splice(i, 1)
-				}
 			}
 			else
 			{
@@ -250,7 +413,7 @@ function keyPress(event)
 			}
 		}
 	}
-	else //If not in title screen
+	else //If not in title screen (In char select screen)
 	{
 		//Will be added later
 	}
@@ -299,7 +462,11 @@ var rainingBlocks = function()
 
 function charSelectScreen()
 {
-	ctx.drawImage(charArray[0],0,0);
+		ctx.drawImage(charArray[2],0,0);
+		for (var i=3;i<charArray.length;i++)
+		{
+			charArray[i].draw(ctx);
+		}
 }
 
 var titleScreen = function(title, start, exit)
