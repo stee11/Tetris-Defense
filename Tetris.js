@@ -224,22 +224,6 @@ function mouseClick(MouseEvent)
 				if (sprites[1].y==240)
 				{
 					fade = true;
-					//inTitle=false;
-					//inChar=true;
-					//for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-					//{
-						//sprites.splice(i, 1);
-					//}
-					//for (var i=titleArray.length-1; i >=0; i--)
-					//{
-						//titleArray.splice(i, 1)
-					//}
-					inTitle=false;
-					inChar=true;
-					for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-					{
-						sprites.splice(i, 1);
-					}
 				}
 				else
 					sprites[1].y=240;
@@ -435,22 +419,6 @@ function keyPress(event)
 			if(sprites[1].getY()==240)
 			{
 				fade = true;
-				//inTitle=false;
-				//inChar=true;
-				//for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-				//{
-					//sprites.splice(i, 1);
-				//}
-				//for (var i=titleArray.length-1; i >=0; i--)
-				//{
-					//titleArray.splice(i, 1)
-				//}
-				inTitle=false;
-				inChar=true;
-				for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-				{
-					sprites.splice(i, 1);
-				}
 			}
 			else
 			{
