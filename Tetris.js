@@ -16,12 +16,14 @@ canvas.width = 800;
 canvas.height = 600;
 
 var frameCounter = 0;
+var opacityCounter = 1;
 var sprites = [];
 var titleArray =[];
 var blockArray =[];
 var charArray=[];
 
 //Global bools
+var fade=false;
 var inTitle=true;
 var inChar=false;
 var inGame=false;
@@ -36,6 +38,37 @@ var clearCanvas = function()
 {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
+
+//Fade-out transition
+var fadeOut = function(speed)
+{
+	opacityCounter -= speed;
+	ctx.globalAlpha = opacityCounter;
+	if(opacityCounter <= 0)
+	{
+		fade = false;
+		if(inTitle)
+		{
+			inTitle = false;
+			inChar = true;
+			for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
+			{
+				sprites.splice(i, 1);
+			}
+			for (var i=titleArray.length-1; i >=0; i--)
+			{
+				titleArray.splice(i, 1)
+			}
+		}
+	}
+}
+
+var fadeIn = function(speed)
+{
+	opacityCounter += speed;
+	ctx.globalAlpha = opacityCounter;
+}
+
 //The mute button
 var muteButton = function()
 {
@@ -178,16 +211,17 @@ function mouseClick(MouseEvent)
 			{
 				if (sprites[1].y==240)
 				{
-					inTitle=false;
-					inChar=true;
-					for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-					{
-						sprites.splice(i, 1);
-					}
-					for (var i=titleArray.length-1; i >=0; i--)
-					{
-						titleArray.splice(i, 1)
-					}
+					fade = true;
+					//inTitle=false;
+					//inChar=true;
+					//for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
+					//{
+						//sprites.splice(i, 1);
+					//}
+					//for (var i=titleArray.length-1; i >=0; i--)
+					//{
+						//titleArray.splice(i, 1)
+					//}
 				}
 				else
 					sprites[1].y=240;
@@ -223,16 +257,17 @@ function keyPress(event)
 		{
 			if(sprites[1].getY()==240)
 			{
-				inTitle=false;
-				inChar=true;
-				for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
-				{
-					sprites.splice(i, 1);
-				}
-				for (var i=titleArray.length-1; i >=0; i--)
-				{
-					titleArray.splice(i, 1)
-				}
+				fade = true;
+				//inTitle=false;
+				//inChar=true;
+				//for (var i=sprites.length-1; i>4; i--) //delete all the block references from memory
+				//{
+					//sprites.splice(i, 1);
+				//}
+				//for (var i=titleArray.length-1; i >=0; i--)
+				//{
+					//titleArray.splice(i, 1)
+				//}
 			}
 			else
 			{
@@ -378,11 +413,17 @@ var titleScreen = function(title, start, exit)
 		sprites[1].move(0.8, 0);
 	}
 }
+
 var gameLoop = function ()
 {
 	clearCanvas();
+	ctx.globalAlpha = 1;
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	if(fade)
+	{
+		fadeOut(0.02);	
+	}
 	if (inTitle)
 	{
 		rainingBlocks();
@@ -391,6 +432,7 @@ var gameLoop = function ()
 	}
 	else if (inChar)
 	{
+		fadeIn(0.02);
 		charSelectScreen();
 	}	
 	else if (inGame)
