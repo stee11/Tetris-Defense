@@ -14,6 +14,7 @@ var canvas = document.getElementById('canvas1');
 var ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 600;
+canvas.focus();
 
 var frameCounter = 0;
 var opacityCounter = 1;
