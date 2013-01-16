@@ -200,12 +200,13 @@ var init = function()
 //The keyboard down event
 canvas.onkeydown = function(evt) {
        var charCode = evt.which;
+       console.log(charCode);
        keyPress(charCode);
    };
 
 //The mouse click event
 canvas.onclick=function(evt) {
-	console.log("x is: "+evt.offsetX+"\ny is: "+evt.offsetY); 
+	//console.log("x is: "+evt.offsetX+"\ny is: "+evt.offsetY); 
 	//Use this line above to find x and y of a click
 	mouseClick(evt);
 };
@@ -438,7 +439,114 @@ function keyPress(event)
 	}
 	else //If not in title screen (In char select screen)
 	{
-		//Will be added later
+		if (event==37) //if left arrow
+		{
+			if(charArray[3].currentAnimation==charArray[0])
+			{
+				if (charArray[3].x!=40)
+					charArray[3].x-=110;
+				else
+				{ 
+					if (charArray[3].y==183)
+					{
+						charArray[3].x=480;
+					}
+					else if (charArray[3].y==376)
+						charArray[3].x=260;
+					else
+						charArray[3].x=370;
+				}
+			}
+		} //end left arrow
+		else if (event==39) //Right arrow
+		{
+			if(charArray[3].currentAnimation==charArray[0])
+			{
+				if (charArray[3].y==40)
+				{
+					if (charArray[3].x!=370)
+					{
+						charArray[3].x+=110;
+					}
+					else
+						charArray[3].x=40;
+				}
+				else if (charArray[3].y==183)
+				{
+					if (charArray[3].x!=480)
+					{
+						charArray[3].x+=110;
+					}
+					else
+						charArray[3].x=40;
+				}
+				else
+				{
+					if (charArray[3].x!=260)
+						charArray[3].x+=110;
+					else
+						charArray[3].x=40;
+				}
+			}
+		} //end right arrow
+		else if (event==38) //Up arrow
+		{
+			if(charArray[3].currentAnimation==charArray[0])
+			{
+				if (charArray[3].y==40)
+				{
+					if (charArray[3].x==370)
+					{
+						charArray[3].x=260;
+						charArray[3].y=376;
+					}
+					else
+						charArray[3].y=376;
+				}
+				else if (charArray[3].y==183)
+				{
+					if (charArray[3].x==480)
+					{
+						charArray[3].x=370;
+						charArray[3].y=40;
+					}
+					else
+						charArray[3].y=40;
+				}
+				else
+				{
+					charArray[3].y=183;
+				}
+			}
+		} //end up arrow
+		else if (event==40) //Down arrow
+		{
+			if(charArray[3].currentAnimation==charArray[0])
+			{
+				if(charArray[3].y==376)
+					charArray[3].y=40;
+				else if (charArray[3].y==183)
+				{
+					if (charArray[3].x==480 || charArray[3].x==370)
+					{
+						charArray[3].x=260;
+						charArray[3].y=376;
+					}
+					else
+						charArray[3].y=376;
+				}
+				else
+					charArray[3].y=183;
+			}
+		} //end down arrow
+		else if (event==13)
+		{
+			charArray[3].setAnimation(charArray[1]);
+		}
+		else if (event==8)
+		{
+			charArray[3].setAnimation(charArray[0]);
+		}
 	}
 }
 
