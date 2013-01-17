@@ -33,6 +33,7 @@ var inGame=false;
 //Audio instantiation for title screen and versus screen
 var title = new Audio("./Sound/Newtitle.wav");
 title.loop = true;
+title.volume = 0.4
 title.play();
 var versus = new Audio("./Sound/versus.mp3");
 versus.loop = true;
@@ -103,14 +104,19 @@ var fadeIn = function(speed)
 {
 	if(inGame)
 	{
-		if(versus.volume + speed <= 1)
+		//makes sure that the title music has already stopped playing
+		if(title.volume - speed >= 0)
+		{
+			title.volume -= speed;
+		}
+		if(versus.volume + speed <= 0.4)
 		{
 			console.log(versus.volume + " and " + speed);
 			versus.volume += speed;
 		}
 		else
 		{
-			versus.volume = 1;
+			versus.volume = 0.4;
 		}
 	}
 	opacityCounter += speed;
