@@ -83,15 +83,17 @@ var fadeOut = function(speed)
 			{
 				inChar = false;
 				inGame = true;
-				for(var i = 0; i < charArray.length; i++)
-				{
-					charArray.splice(i, 1);
-				}
 				versus.play();
 				if(title.paused)
 				{
 					versus.pause();
 				}
+				//We think this is the reason for long load times in the transition between
+				//character and verse screen. I am just going to leave this here.
+				/*for(var i = 0; i < charArray.length; i++)
+				{
+					charArray.splice(i, 1);
+				}*/
 			}
 		}		
 	}
@@ -310,8 +312,10 @@ var init = function()
 //The keyboard down event
 canvas.onkeydown = function(evt) {
        var charCode = evt.which;
-       console.log(charCode);
+       //console.log(charCode);
        keyPress(charCode);
+       if (charCode==8)
+       		return false;
    };
 
 //The mouse click event
@@ -639,6 +643,12 @@ function mouseClick(MouseEvent)
 }
 function keyPress(event)
 {
+	//Prevents the backspace from going back a page.
+	event = event || window.event;
+	var target = event.target || event.srcElement;
+    if (event.keyCode == 8 && !/input|textarea/i.test(target.nodeName))
+        return false;
+    
 	if (inTitle)
 	{
 		if(event == 13)
@@ -663,7 +673,7 @@ function keyPress(event)
 			}
 		}
 	}
-	else //If not in title screen (In char select screen)
+	else if(inChar) //If not in title screen (In char select screen)
 	{
 		if (event==37) //if left arrow
 		{
@@ -947,6 +957,10 @@ function keyPress(event)
 			charArray[3].setAnimation(charArray[0]);
 		}
 	}
+	/*else //In the game
+	{
+
+	}*/
 }
 
 var rainingBlocks = function()
